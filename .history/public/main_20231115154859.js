@@ -33,16 +33,17 @@ const houses = [
       'https://static.wikia.nocookie.net/pottermore/images/4/4f/Ravenclaw_crest.png'
   }
 ];
-const renderToDOM = (divId, content) => {
-  const selectedDiv = document.querySelector(divId);
-  selectedDiv.innerHTML = content;
-};
 
 const init = () => {
   document.querySelector('#app').innerHTML = ('<h1>HELLO! You are up and running!</h1>');
 };
 
 init();
+
+const renderToDOM = (divId, content) => {
+  const selectedDiv = document.querySelector(divId);
+  selectedDiv.innerHTML = content;
+};
 
 const studentsOnDom = (divId, array, house = 'Hogwarts') => {
   let domString = '';
@@ -71,6 +72,19 @@ const studentsOnDom = (divId, array, house = 'Hogwarts') => {
   });
   renderToDOM(divId, domString);
 };
+const header = () => {
+  const domString = `<div class="container">
+    <h1>Welcome to Hoggy Hogwarts Sorting Hat!</h1>
+    <p>
+      Hmm, difficult. VERY difficult. <br />Plenty of courage, I see.
+      <br />Not a bad mind, either. There's talent, oh yes. <br />And a
+      thirst to prove yourself. <br />But where to put you?
+    </p>
+  </div>`;
+
+  renderToDOM('#header-container', domString);
+};
+header();
 studentsOnDom('#students', students);
 studentsOnDom('#voldy', voldysArmy);
 
@@ -85,6 +99,7 @@ const htmlStructure = () => {
   renderToDOM('#app', domString);
 };
 htmlStructure();
+
 const events = () => {
   document.querySelector('#start-sorting').addEventListener('click', () => {
   });
@@ -110,20 +125,6 @@ const events = () => {
   });
 };
 events();
-
-const header = () => {
-  const domString = `<div class="container">
-    <h1>Welcome to Hoggy Hogwarts Sorting Hat!</h1>
-    <p>
-      Hmm, difficult. VERY difficult. <br />Plenty of courage, I see.
-      <br />Not a bad mind, either. There's talent, oh yes. <br />And a
-      thirst to prove yourself. <br />But where to put you?
-    </p>
-  </div>`;
-
-  renderToDOM('#header-container', domString);
-};
-header();
 
 const studentAreas = () => {
   const domString = `<div id="students">No Students</div>

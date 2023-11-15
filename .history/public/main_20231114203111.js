@@ -1,13 +1,12 @@
-import '../styles/main.scss'; // You have to import your styles for them to work. Comment in this line
+// import '../styles/main.scss'; // You have to import your styles for them to work. Comment in this line
+
+// const init = () => {
+//   document.querySelector('#app').innerHTML = ('<h1>HELLO! You are up and running!</h1>');
+// };
+
+// init();
 
 const startApp = () => {
-};
-const createId = (array) => {
-  if (array.length) {
-    const idArray = array.map((el) => el.id);
-    return Math.max(...idArray) + 1;
-  }
-  return 0;
 };
 const students = [];
 const voldysArmy = [];
@@ -38,12 +37,65 @@ const renderToDOM = (divId, content) => {
   selectedDiv.innerHTML = content;
 };
 
-const init = () => {
-  document.querySelector('#app').innerHTML = ('<h1>HELLO! You are up and running!</h1>');
+const form = () => {
+  const domString = `<form id="sorting" class="d-flex flex-column form-floating ">
+    <input
+    type="text"
+    class="form-control mb-1"
+    id="student-name"
+    placeholder="Enter a name"
+    required
+  />
+  <label for="floatingInputValue">Name to be sorted</label>
+<button type="submit" class="btn btn-success">Get Sorted!</button>
+</form>`;
+
+  renderToDOM('#form-container', domString);
+
+  // has to be put on the DOM after form is on DOM, not before
+  // on form submit, sort student
+  document.querySelector('#sorting').addEventListener('submit', sortStudent);
 };
+form();
+const header = () => {
+  const domString = `<div class="container">
+    <h1>Welcome to Hoggy Hogwarts Sorting Hat!</h1>
+    <p>
+      Hmm, difficult. VERY difficult. <br />Plenty of courage, I see.
+      <br />Not a bad mind, either. There's talent, oh yes. <br />And a
+      thirst to prove yourself. <br />But where to put you?
+    </p>
+  </div>`;
 
-init();
+  renderToDOM('#header-container', domString);
+};
+header();
 
+const startSortingBtn = () => {
+  const domString = '<button type="button" class="btn btn-info" id="start-sorting">Start the Sorting Ceremony!</button>';
+
+  renderToDOM('#form-container', domString);
+};
+startSortingBtn();
+
+const filterBtnRow = () => {
+  const domString = `<div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" id="filter--hufflepuff" class="btn btn-warning btn-sm">Hufflepuff</button>
+      <button type="button" class="btn btn-primary btn-sm" id="filter--ravenclaw">Ravenclaw</button>
+      <button type="button" class="btn btn-success btn-sm" id="filter--slytherin">Slytherin</button>
+      <button type="button" class="btn btn-danger btn-sm" id="filter--gryffindor">Gryffindor</button>
+      <button type="button" class="btn btn-secondary btn-sm" id="filter--all">All</button>
+    </div>`;
+
+  renderToDOM('#filter-container', domString);
+};
+filterBtnRow();
+const studentAreas = () => {
+  const domString = `<div id="students">No Students</div>
+  <div id="voldy">No Death Eaters</div>`;
+
+  renderToDOM('#student-container', domString);
+};
 const studentsOnDom = (divId, array, house = 'Hogwarts') => {
   let domString = '';
   if (!array.length) {
@@ -71,9 +123,7 @@ const studentsOnDom = (divId, array, house = 'Hogwarts') => {
   });
   renderToDOM(divId, domString);
 };
-studentsOnDom('#students', students);
-studentsOnDom('#voldy', voldysArmy);
-
+studentAreas();
 const htmlStructure = () => {
   const domString = `    
     <div id="header-container" class="header mb-3"></div>
@@ -84,7 +134,7 @@ const htmlStructure = () => {
 
   renderToDOM('#app', domString);
 };
-htmlStructure();
+
 const events = () => {
   document.querySelector('#start-sorting').addEventListener('click', () => {
   });
@@ -109,48 +159,20 @@ const events = () => {
     }
   });
 };
+studentsOnDom('#voldy', voldysArmy);
+studentsOnDom('#students', students);
 events();
 
-const header = () => {
-  const domString = `<div class="container">
-    <h1>Welcome to Hoggy Hogwarts Sorting Hat!</h1>
-    <p>
-      Hmm, difficult. VERY difficult. <br />Plenty of courage, I see.
-      <br />Not a bad mind, either. There's talent, oh yes. <br />And a
-      thirst to prove yourself. <br />But where to put you?
-    </p>
-  </div>`;
+htmlStructure();
 
-  renderToDOM('#header-container', domString);
+const createId = (array) => {
+  if (array.length) {
+    const idArray = array.map((el) => el.id);
+    return Math.max(...idArray) + 1;
+  }
+  return 0;
 };
-header();
 
-const studentAreas = () => {
-  const domString = `<div id="students">No Students</div>
-  <div id="voldy">No Death Eaters</div>`;
-
-  renderToDOM('#student-container', domString);
-};
-studentAreas();
-
-const startSortingBtn = () => {
-  const domString = '<button type="button" class="btn btn-info" id="start-sorting">Start the Sorting Ceremony!</button>';
-
-  renderToDOM('#form-container', domString);
-};
-startSortingBtn();
-const filterBtnRow = () => {
-  const domString = `<div class="btn-group" role="group" aria-label="Basic example">
-      <button type="button" id="filter--hufflepuff" class="btn btn-warning btn-sm">Hufflepuff</button>
-      <button type="button" class="btn btn-primary btn-sm" id="filter--ravenclaw">Ravenclaw</button>
-      <button type="button" class="btn btn-success btn-sm" id="filter--slytherin">Slytherin</button>
-      <button type="button" class="btn btn-danger btn-sm" id="filter--gryffindor">Gryffindor</button>
-      <button type="button" class="btn btn-secondary btn-sm" id="filter--all">All</button>
-    </div>`;
-
-  renderToDOM('#filter-container', domString);
-};
-filterBtnRow();
 const sortStudent = (e) => {
   e.preventDefault();
   const sortingHat = houses[Math.floor(Math.random() * houses.length)];
@@ -170,25 +192,5 @@ const sortStudent = (e) => {
     studentsOnDom('#students', students);
   }
 };
-const form = () => {
-  const domString = `<form id="sorting" class="d-flex flex-column form-floating ">
-    <input
-    type="text"
-    class="form-control mb-1"
-    id="student-name"
-    placeholder="Enter a name"
-    required
-  />
-  <label for="floatingInputValue">Name to be sorted</label>
-<button type="submit" class="btn btn-success">Get Sorted!</button>
-</form>`;
-
-  renderToDOM('#form-container', domString);
-
-  // has to be put on the DOM after form is on DOM, not before
-  // on form submit, sort student
-  document.querySelector('#sorting').addEventListener('submit', sortStudent);
-};
-form();
 
 startApp();

@@ -33,16 +33,17 @@ const houses = [
       'https://static.wikia.nocookie.net/pottermore/images/4/4f/Ravenclaw_crest.png'
   }
 ];
-const renderToDOM = (divId, content) => {
-  const selectedDiv = document.querySelector(divId);
-  selectedDiv.innerHTML = content;
-};
 
 const init = () => {
   document.querySelector('#app').innerHTML = ('<h1>HELLO! You are up and running!</h1>');
 };
 
 init();
+
+const renderToDOM = (divId, content) => {
+  const selectedDiv = document.querySelector(divId);
+  selectedDiv.innerHTML = content;
+};
 
 const studentsOnDom = (divId, array, house = 'Hogwarts') => {
   let domString = '';
@@ -71,8 +72,6 @@ const studentsOnDom = (divId, array, house = 'Hogwarts') => {
   });
   renderToDOM(divId, domString);
 };
-studentsOnDom('#students', students);
-studentsOnDom('#voldy', voldysArmy);
 
 const htmlStructure = () => {
   const domString = `    
@@ -109,7 +108,10 @@ const events = () => {
     }
   });
 };
+
 events();
+studentsOnDom('#students', students);
+studentsOnDom('#voldy', voldysArmy);
 
 const header = () => {
   const domString = `<div class="container">

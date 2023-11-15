@@ -1,13 +1,12 @@
-import '../styles/main.scss'; // You have to import your styles for them to work. Comment in this line
+// import '../styles/main.scss'; // You have to import your styles for them to work. Comment in this line
+
+// const init = () => {
+//   document.querySelector('#app').innerHTML = ('<h1>HELLO! You are up and running!</h1>');
+// };
+
+// init();
 
 const startApp = () => {
-};
-const createId = (array) => {
-  if (array.length) {
-    const idArray = array.map((el) => el.id);
-    return Math.max(...idArray) + 1;
-  }
-  return 0;
 };
 const students = [];
 const voldysArmy = [];
@@ -33,17 +32,17 @@ const houses = [
       'https://static.wikia.nocookie.net/pottermore/images/4/4f/Ravenclaw_crest.png'
   }
 ];
+const createId = (array) => {
+  if (array.length) {
+    const idArray = array.map((el) => el.id);
+    return Math.max(...idArray) + 1;
+  }
+  return 0;
+};
 const renderToDOM = (divId, content) => {
   const selectedDiv = document.querySelector(divId);
   selectedDiv.innerHTML = content;
 };
-
-const init = () => {
-  document.querySelector('#app').innerHTML = ('<h1>HELLO! You are up and running!</h1>');
-};
-
-init();
-
 const studentsOnDom = (divId, array, house = 'Hogwarts') => {
   let domString = '';
   if (!array.length) {
@@ -73,7 +72,13 @@ const studentsOnDom = (divId, array, house = 'Hogwarts') => {
 };
 studentsOnDom('#students', students);
 studentsOnDom('#voldy', voldysArmy);
+const studentAreas = () => {
+  const domString = `<div id="students">No Students</div>
+  <div id="voldy">No Death Eaters</div>`;
 
+  renderToDOM('#student-container', domString);
+};
+studentAreas();
 const htmlStructure = () => {
   const domString = `    
     <div id="header-container" class="header mb-3"></div>
@@ -110,7 +115,6 @@ const events = () => {
   });
 };
 events();
-
 const header = () => {
   const domString = `<div class="container">
     <h1>Welcome to Hoggy Hogwarts Sorting Hat!</h1>
@@ -124,15 +128,6 @@ const header = () => {
   renderToDOM('#header-container', domString);
 };
 header();
-
-const studentAreas = () => {
-  const domString = `<div id="students">No Students</div>
-  <div id="voldy">No Death Eaters</div>`;
-
-  renderToDOM('#student-container', domString);
-};
-studentAreas();
-
 const startSortingBtn = () => {
   const domString = '<button type="button" class="btn btn-info" id="start-sorting">Start the Sorting Ceremony!</button>';
 
@@ -151,6 +146,8 @@ const filterBtnRow = () => {
   renderToDOM('#filter-container', domString);
 };
 filterBtnRow();
+
+
 const sortStudent = (e) => {
   e.preventDefault();
   const sortingHat = houses[Math.floor(Math.random() * houses.length)];
@@ -170,6 +167,8 @@ const sortStudent = (e) => {
     studentsOnDom('#students', students);
   }
 };
+
+
 const form = () => {
   const domString = `<form id="sorting" class="d-flex flex-column form-floating ">
     <input
