@@ -1,16 +1,12 @@
-import '../styles/main.scss'; // You have to import your styles for them to work. Comment in this line
+// import '../styles/main.scss'; // You have to import your styles for them to work. Comment in this line
 
-const startApp = () => {
-};
-const createId = (array) => {
-  if (array.length) {
-    const idArray = array.map((el) => el.id);
-    return Math.max(...idArray) + 1;
-  }
-  return 0;
-};
+// const init = () => {
+//   document.querySelector('#app').innerHTML = ('<h1>HELLO! You are up and running!</h1>');
+// };
+
+// init();
 const students = [];
-const voldysArmy = [];
+const voldysArmy = []; // starts as an empty array
 const houses = [
   {
     house: 'gryffindor',
@@ -37,12 +33,13 @@ const renderToDOM = (divId, content) => {
   const selectedDiv = document.querySelector(divId);
   selectedDiv.innerHTML = content;
 };
+const studentAreas = () => {
+  const domString = `<div id="students">No Students</div>
+  <div id="voldy">No Death Eaters</div>`;
 
-const init = () => {
-  document.querySelector('#app').innerHTML = ('<h1>HELLO! You are up and running!</h1>');
+  renderToDOM('#student-container', domString);
 };
-
-init();
+studentAreas();
 
 const studentsOnDom = (divId, array, house = 'Hogwarts') => {
   let domString = '';
@@ -71,32 +68,30 @@ const studentsOnDom = (divId, array, house = 'Hogwarts') => {
   });
   renderToDOM(divId, domString);
 };
-studentsOnDom('#students', students);
-studentsOnDom('#voldy', voldysArmy);
 
-const htmlStructure = () => {
-  const domString = `    
-    <div id="header-container" class="header mb-3"></div>
-    <div id="form-container" class="container mb-3 text-center"></div>
-    <div id="filter-container" class="container mb-3"></div>
-    <div id="student-container" class="container d-flex"></div>
-    `;
-
-  renderToDOM('#app', domString);
-};
-htmlStructure();
 const events = () => {
+  // get form on the DOM on button click
   document.querySelector('#start-sorting').addEventListener('click', () => {
+    // put html elements on the DOM on click
+    // filter buttons
+    // students and voldy's army divs
   });
+
+  // target expel buttons to move to voldys army
   document
     .querySelector('#student-container')
     .addEventListener('click', (e) => {
       if (e.target.id.includes('expel')) {
         const [, id] = e.target.id.split('--');
         const index = students.findIndex((student) => student.id === Number(id));
+
+        // move from one array to another
         voldysArmy.push(...students.splice(index, 1));
+        // get both sets of students on the DOM
       }
     });
+
+  // target filter buttons on Dom
   document.querySelector('#filter-container').addEventListener('click', (e) => {
     if (e.target.id.includes('filter')) {
       const [, house] = e.target.id.split('--');
@@ -109,8 +104,23 @@ const events = () => {
     }
   });
 };
+studentsOnDom('#voldy', voldysArmy);
+studentsOnDom('#students', students);
 events();
 
+// ********** HTML Components  ********** //
+// the basic HMTL structure of app
+const htmlStructure = () => {
+  const domString = `    
+    <div id="header-container" class="header mb-3"></div>
+    <div id="form-container" class="container mb-3 text-center"></div>
+    <div id="filter-container" class="container mb-3"></div>
+    <div id="student-container" class="container d-flex"></div>
+    `;
+
+  renderToDOM('#app', domString);
+};
+htmlStructure();
 const header = () => {
   const domString = `<div class="container">
     <h1>Welcome to Hoggy Hogwarts Sorting Hat!</h1>
@@ -125,20 +135,15 @@ const header = () => {
 };
 header();
 
-const studentAreas = () => {
-  const domString = `<div id="students">No Students</div>
-  <div id="voldy">No Death Eaters</div>`;
-
-  renderToDOM('#student-container', domString);
-};
-studentAreas();
-
 const startSortingBtn = () => {
   const domString = '<button type="button" class="btn btn-info" id="start-sorting">Start the Sorting Ceremony!</button>';
 
   renderToDOM('#form-container', domString);
 };
 startSortingBtn();
+
+// studentAreas();
+
 const filterBtnRow = () => {
   const domString = `<div class="btn-group" role="group" aria-label="Basic example">
       <button type="button" id="filter--hufflepuff" class="btn btn-warning btn-sm">Hufflepuff</button>
@@ -151,6 +156,18 @@ const filterBtnRow = () => {
   renderToDOM('#filter-container', domString);
 };
 filterBtnRow();
+
+// ********** LOGIC  ********** //
+// sorts student to a house and then place them in the students array
+
+const createId = (array) => {
+  if (array.length) {
+    const idArray = array.map((el) => el.id);
+    return Math.max(...idArray) + 1;
+  }
+  return 0;
+};
+
 const sortStudent = (e) => {
   e.preventDefault();
   const sortingHat = houses[Math.floor(Math.random() * houses.length)];
@@ -170,6 +187,11 @@ const sortStudent = (e) => {
     studentsOnDom('#students', students);
   }
 };
+
+// Create a new ID for the students
+
+// add form to DOM on start-sorting click.
+// Add events for form after the form is on the DOM
 const form = () => {
   const domString = `<form id="sorting" class="d-flex flex-column form-floating ">
     <input
@@ -190,5 +212,7 @@ const form = () => {
   document.querySelector('#sorting').addEventListener('submit', sortStudent);
 };
 form();
+const startApp = () => { // always load last
+};
 
 startApp();

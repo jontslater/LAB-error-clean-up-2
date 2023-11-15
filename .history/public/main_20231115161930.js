@@ -39,7 +39,7 @@ const renderToDOM = (divId, content) => {
 };
 
 const init = () => {
-  document.querySelector('#app').innerHTML = ('<h1>HELLO! You are up and running!</h1>');
+  document.querySelector('#app').innerHTML = ('app');
 };
 
 init();
